@@ -14,10 +14,24 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('starter');
+    return view('auth.login');
 });
 
-Auth::routes();
+Auth::routes([
+    //'login' => false,
+    //'register' => false,
+]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/users', [App\Http\Controllers\HomeController::class, 'users'])->name('users');
+
+Route::group(['middleware' => 'auth'], function(){
+    Route::group(['prefix'=>'admin', 'middleware' => 'admin'], function(){	
+        Route::get('/', [App\Http\Controllers\AuthController::class, 'admin'])->name('admin');
+    });
+    Route::group(['prefix'=>'user'], function(){	
+        Route::get('/', [App\Http\Controllers\AuthController::class, 'user'])->name('user');
+    });
+    Route::get('/checkin', [App\Http\Controllers\AttendanceController::class, 'checkin'])->name('checkin');
+    Route::get('/checkout', [App\Http\Controllers\AttendanceController::class, 'checkout'])->name('checkout');
+});

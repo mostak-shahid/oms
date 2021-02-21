@@ -19,6 +19,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'username',
+        'phone',
         'password',
     ];
 
@@ -42,5 +44,8 @@ class User extends Authenticatable
     ];
     public function profiles(){
         return $this->hasMany('App\Models\Profile');
+    }
+    public function attendances(){
+        return $this->hasMany('App\Models\Attendance');
     }
 }
