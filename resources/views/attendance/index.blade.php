@@ -31,17 +31,7 @@
                             <div class="col-md-6 mb-3">
                                 <a href="{{route('attendance.create')}}" class="btn btn-success"><i class="fa fa-plus"></i> Add Attendance</a>
                             </div>
-                            <div class="col-md-6 mb-3 text-right">
-                                <div class="d-inline-block">
-                                    <table>
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="text" id="min" name="min"></td>
-                                                <td><input type="text" id="max" name="max"></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                            <div class="col-md-6 mb-3">
                             </div>
                         </div>
                         
@@ -95,7 +85,6 @@
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
-    <link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.0.2/css/dataTables.dateTime.min.css">
 @endsection
 @section('script')
     <!-- DataTables  & Plugins -->
@@ -111,43 +100,13 @@
     <script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-    <script src="https://cdn.datatables.net/datetime/1.0.2/js/dataTables.dateTime.min.js"></script>
-
-
     <script>
-        var minDate, maxDate;
-
-        // Custom filtering function which will search data in column four between two values
-        $.fn.dataTable.ext.search.push(
-                function( settings, data, dataIndex ) {
-                    var min = minDate.val();
-                    var max = maxDate.val();
-                    var date = new Date( data[2] );
-
-                    if (
-                            ( min === null && max === null ) ||
-                            ( min === null && date <= max ) ||
-                            ( min <= date   && max === null ) ||
-                            ( min <= date   && date <= max )
-                    ) {
-                        return true;
-                    }
-                    return false;
-                }
-        );
         jQuery(document).ready(function ($) {
-            // Create date inputs
-            minDate = new DateTime($('#min'), {
-                format: 'MMMM Do YYYY'
-                //January 8th 2010
+            $('#data-table tfoot th:not(.no_filter)').each( function () {
+                var title = $(this).text();
+                $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
             });
-            maxDate = new DateTime($('#max'), {
-                format: 'MMMM Do YYYY'
-            });
-
-            var table = $('#data-table').DataTable({
+            var dataTable = $('#data-table').DataTable({
                 //dom: "<'row'<'col-sm-12 text-center'B>>" +
                 dom: "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4 text-center'B><'col-sm-12 col-md-4'f>>" +
                 "<'row'<'col-sm-12'tr>>" +
@@ -217,18 +176,13 @@
                         $( 'input', this.footer() ).on( 'keyup change clear', function () {
                             if ( that.search() !== this.value ) {
                                 that
-                                        .search( this.value )
-                                        .draw();
+                                    .search( this.value )
+                                    .draw();
                             }
                         } );
                     } );
                 }
 
-            });
-
-            // Refilter the table
-            $('#min, #max').on('change', function () {
-                table.draw();
             });
         });
     </script>
