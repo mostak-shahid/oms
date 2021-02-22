@@ -25,6 +25,9 @@ Route::get('/', function () {
 Route::get('/login', function () {
     return view('login');
 })->name('login');
+Route::get('/datatable', function () {
+    return view('datatable');
+})->name('login');
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 //Route::get('/users', [App\Http\Controllers\HomeController::class, 'users'])->name('users');
