@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Session;
 use DataTables;
 
@@ -22,14 +23,21 @@ class AttendanceController extends Controller
         //$attendances = Attendance::orderBy('created_at','desc')->paginate(1);
         //$attendances = Attendance::orderBy('created_at','desc')->get();
         $attendances = Attendance::all();
+        $attendances = DB::table('attendances')
+            ->join('users', 'users.id', '=', 'attendances.user_id')
+            ->select('attendances.*', 'users.email')
+            ->get();
 
         if($request->ajax()) {
             //$attendances = Attendance::all();
             return DataTables::of($attendances)
-                /*->addColumn('workhour', function($data){
-                    return $data->created_at . ' - (' . $data->created_at->diffForHumans() . ')';
+                ->addColumn('user_id', function($attendances){
+                    return $attendances->email;
                 })
-                ->rawColumns(['workhour'])*/
+                ->addColumn('workhour', function($attendances){
+                    return number_format($attendances->workhour/60,2);
+                })
+                //->rawColumns(['workhour'])
                 ->make(true);
                 // ->toJson();
         }
@@ -78,7 +86,12 @@ class AttendanceController extends Controller
         $attendance = Attendance::where('user_id', $user_id)->where('checkin_at', date('Y-m-d'))->orderBy('id','DESC')->first();
         if (!$attendance->outtime) {
             $attendance->outtime = date('Y-m-d H:i:s');
-            $attendance->workhour = 8*60*60;
+            
+            $origin = date_create($attendance->intime);
+            $target = date_create($attendance->outtime);
+            $interval = date_diff($origin, $target);
+            
+            $attendance->workhour = $interval->d * 24 * 60 + $interval->h * 60 + $interval->i;
             $attendance->save();
             Session::flash('success', 'You have checked out for today.');
         }

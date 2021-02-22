@@ -16,9 +16,10 @@ class CreateAttendancesTable extends Migration
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->date('date');
-            $table->dateTime('checkin')->nullable();
-            $table->dateTime('checkout')->nullable();
+            $table->date('checkin_at');
+            $table->dateTime('intime')->nullable();
+            $table->dateTime('outtime')->nullable();
+            $table->string('workhour')->nullable();
             $table->timestamps();
         });
     }
