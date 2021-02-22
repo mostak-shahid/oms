@@ -13,21 +13,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
-});
 
 Auth::routes([
     //'login' => false,
     //'register' => false,
 ]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/users', [App\Http\Controllers\HomeController::class, 'users'])->name('users');
+Route::get('/', function () {
+    return view('login');
+})->name('home');
+Route::get('/login', function () {
+    return view('login');
+})->name('login');
+
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Route::get('/users', [App\Http\Controllers\HomeController::class, 'users'])->name('users');
 
 Route::group(['middleware' => 'auth'], function(){
     Route::group(['prefix'=>'admin', 'middleware' => 'admin'], function(){	
         Route::get('/', [App\Http\Controllers\AuthController::class, 'admin'])->name('admin');
+        Route::get('/attendance', [App\Http\Controllers\AttendanceController::class, 'index'])->name('attendance.index');
     });
     Route::group(['prefix'=>'user'], function(){	
         Route::get('/', [App\Http\Controllers\AuthController::class, 'user'])->name('user');

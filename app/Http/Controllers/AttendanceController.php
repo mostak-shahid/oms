@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 use Session;
+use DataTables;
 
 use App\Models\Attendance;
 
@@ -16,9 +17,23 @@ class AttendanceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        //$attendances = Attendance::orderBy('created_at','desc')->paginate(1);
+        //$attendances = Attendance::orderBy('created_at','desc')->get();
+        $attendances = Attendance::all();
+
+        if($request->ajax()) {
+            //$attendances = Attendance::all();
+            return DataTables::of($attendances)
+                /*->addColumn('workhour', function($data){
+                    return $data->created_at . ' - (' . $data->created_at->diffForHumans() . ')';
+                })
+                ->rawColumns(['workhour'])*/
+                ->make(true);
+                // ->toJson();
+        }
+        return view('attendance.index');
     }
 
     /**
@@ -44,15 +59,15 @@ class AttendanceController extends Controller
     public function checkin()
     {
         $user_id = Auth::id();
-        $attendance = Attendance::where('user_id', $user_id)->where('date', date('Y-m-d'))->get();
+        $attendance = Attendance::where('user_id', $user_id)->where('checkin_at', date('Y-m-d'))->get();
         if ($attendance->count()) {            
             Session::flash('error', 'You have already checked in for working.');
             return redirect()->back();
         }
         Attendance::create([
             'user_id' => Auth::id(),
-            'date' => date('Y-m-d'),
-            'checkin' => date('Y-m-d H:i:s'),
+            'checkin_at' => date('Y-m-d'),
+            'intime' => date('Y-m-d H:i:s'),
         ]);
         Session::flash('success', 'You have checked in for working.');
         return redirect()->back();
@@ -60,10 +75,11 @@ class AttendanceController extends Controller
     public function checkout()
     {
         $user_id = Auth::id();
-        $attendance = Attendance::where('user_id', $user_id)->where('date', date('Y-m-d'))->orderBy('id','DESC')->first();
-        if (!$attendance->checkout) {
-            $attendance->checkout = date('Y-m-d H:i:s');
-            $attendance->save();            
+        $attendance = Attendance::where('user_id', $user_id)->where('checkin_at', date('Y-m-d'))->orderBy('id','DESC')->first();
+        if (!$attendance->outtime) {
+            $attendance->outtime = date('Y-m-d H:i:s');
+            $attendance->workhour = 8*60*60;
+            $attendance->save();
             Session::flash('success', 'You have checked out for today.');
         }
         return redirect()->back();
