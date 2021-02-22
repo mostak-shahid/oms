@@ -66,22 +66,6 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{route('checkin')}}" class="nav-link">
-                        <i class="nav-icon fas fa-user-plus"></i>
-                        <p>
-                            Checkin
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{route('checkout')}}" class="nav-link">
-                        <i class="nav-icon fas fa-user-minus"></i>
-                        <p>
-                            Checkout
-                        </p>
-                    </a>
-                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
