@@ -33,10 +33,13 @@ Route::group(['middleware' => 'auth'], function(){
     Route::group(['prefix'=>'admin', 'middleware' => 'admin'], function(){	
         Route::get('/', [App\Http\Controllers\AuthController::class, 'admin'])->name('admin');
         Route::get('/attendance', [App\Http\Controllers\AttendanceController::class, 'index'])->name('attendance.index');
+        Route::get('/attendance/create', [App\Http\Controllers\AttendanceController::class, 'create'])->name('attendance.create');
     });
     Route::group(['prefix'=>'user'], function(){	
         Route::get('/', [App\Http\Controllers\AuthController::class, 'user'])->name('user');
     });
     Route::get('/checkin', [App\Http\Controllers\AttendanceController::class, 'checkin'])->name('checkin');
     Route::get('/checkout', [App\Http\Controllers\AttendanceController::class, 'checkout'])->name('checkout');
+    
+    Route::resource('leave',App\Http\Controllers\LeaveController::class);
 });

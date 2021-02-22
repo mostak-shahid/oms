@@ -27,6 +27,10 @@
             <div class="container-fluid">
                 <div class="card card-primary card-outline">
                     <div class="card-body">
+                        <div class="mb-3">
+                            <a href="{{route('attendance.create')}}" class="btn btn-success"><i class="fa fa-plus"></i> Add Attendance</a>
+                        </div>
+                        
                         <table id="data-table" class="table table-bordered dt-responsive" cellspacing="0" width="100%">
                             <thead>
                             <tr>
@@ -51,6 +55,16 @@
                                 {{--@endforeach--}}
                             {{--@endif--}}
                             {{--</tbody>--}}
+                            <tfoot>
+                            <tr>
+                                <th class="no_filter">#</th>
+                                <th>Email</th>
+                                <th>Date</th>
+                                <th>In Time</th>
+                                <th>Out Time</th>
+                                <th class="no_filter">Hour</th>
+                            </tr>
+                            </tfoot>
                         </table>
                     </div>
                     {{--{{$attendances->appends(request()->except('page'))->links()}}--}}
@@ -84,6 +98,10 @@
     <script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
     <script>
         jQuery(document).ready(function ($) {
+            $('#data-table tfoot th:not(.no_filter)').each( function () {
+                var title = $(this).text();
+                $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+            });
             $('#data-table').DataTable({
                 dom: "<'row'<'col-sm-12 text-center'B>>" +
                 "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
@@ -121,7 +139,8 @@
                 columns: [
                     {
                         data: 'id',
-                        name: 'id'
+                        name: 'id',
+                        width: 60
                     },
                     {
                         data: 'user_id',
@@ -143,7 +162,23 @@
                         data: 'workhour',
                         name: 'workhour',
                     }
-                ]
+                ],
+                
+                initComplete: function () {
+                    // Apply the search
+                    this.api().columns().every( function () {
+                        var that = this;
+
+                        $( 'input', this.footer() ).on( 'keyup change clear', function () {
+                            if ( that.search() !== this.value ) {
+                                that
+                                    .search( this.value )
+                                    .draw();
+                            }
+                        } );
+                    } );
+                }
+                
             });
         });
     </script>

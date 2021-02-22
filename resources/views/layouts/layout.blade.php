@@ -150,9 +150,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   </nav>
   <!-- /.navbar -->
   @if(Auth::user()->is_admin)
-    @include('menus.admin-menu');
+    @include('menus.admin-menu')
   @else
-    @include('menus.user-menu');
+    @include('menus.user-menu')
   @endif
 
   @yield('content')
