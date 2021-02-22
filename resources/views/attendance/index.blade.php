@@ -147,7 +147,7 @@
                 format: 'MMMM Do YYYY'
             });
 
-            /*var table = $('#data-table').DataTable({
+            var table = $('#data-table').DataTable({
                 //dom: "<'row'<'col-sm-12 text-center'B>>" +
                 dom: "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4 text-center'B><'col-sm-12 col-md-4'f>>" +
                 "<'row'<'col-sm-12'tr>>" +
@@ -223,73 +223,6 @@
                         } );
                     } );
                 }
-
-            });*/
-
-
-
-            // DataTables initialisation
-            var table = $('#data-table').DataTable({
-                //dom: "<'row'<'col-sm-12 text-center'B>>" +
-                dom: "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4 text-center'B><'col-sm-12 col-md-4'f>>" +
-                "<'row'<'col-sm-12'tr>>" +
-                "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-                buttons: [
-                    {
-                        extend: "copy",
-                        className: "btn-sm btn-secondary"
-                    },
-                    {
-                        extend: "csv",
-                        className: "btn-sm btn-secondary"
-                    },
-                    {
-                        extend: "excel",
-                        className: "btn-sm btn-secondary"
-                    },
-                    {
-                        extend: "pdfHtml5",
-                        className: "btn-sm btn-secondary"
-                    },
-                    {
-                        extend: "print",
-                        className: "btn-sm btn-secondary"
-                    },
-                ],
-                responsive: true,
-                order: [[0, "desc"]],
-                processing: true,
-                serverSide: true,
-                ajax: {
-                    url: "{{route('attendance.index')}}",
-                },
-                columns: [
-                    {
-                        data: 'id',
-                        name: 'id',
-                        width: 60
-                    },
-                    {
-                        data: 'user_id',
-                        name: 'user_id'
-                    },
-                    {
-                        data: 'checkin_at',
-                        name: 'checkin_at'
-                    },
-                    {
-                        data: 'intime',
-                        name: 'intime',
-                    },
-                    {
-                        data: 'outtime',
-                        name: 'outtime',
-                    },
-                    {
-                        data: 'workhour',
-                        name: 'workhour',
-                    }
-                ],
 
             });
 
