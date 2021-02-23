@@ -10,6 +10,7 @@ use Session;
 use DataTables;
 
 use App\Models\Attendance;
+use App\Models\User;
 
 class AttendanceController extends Controller
 {
@@ -21,6 +22,7 @@ class AttendanceController extends Controller
     public function index(Request $request)
     {
         $arr = [];
+        $users = User::all();
         if ($request->date) {
             //02/01/2021 - 03/28/2021
             $arr = explode(' to ', $request->date);
@@ -56,7 +58,7 @@ class AttendanceController extends Controller
                 ->make(true);
                 // ->toJson();
         }
-        return view('attendance.index');
+        return view('attendance.index', compact('users'));
     }
 
     /**
@@ -66,7 +68,8 @@ class AttendanceController extends Controller
      */
     public function create()
     {
-        return view('attendance.create');
+        $users = User::all();
+        return view('attendance.create', compact('users'));
     }
 
     /**
@@ -77,7 +80,34 @@ class AttendanceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //dd($request->all());
+        $workhour = 0;
+        $this->validate($request, [
+            'user_id' => array('required', 'string'),
+            'checkin_at' => array('required', 'string'),
+            'intime' => array('required', 'string'),
+            'outtime' => array('nullable', 'string'),
+        ]);
+        $attendance = Attendance::where('checkin_at', $request->checkin_at)->where('user_id', $request->user_id)->first();
+        if (!$attendance){
+            if ($request->outtime) {
+                $origin = date_create($request->intime);
+                $target = date_create($request->outtime);
+                $diff = date_diff($origin, $target);
+                $workhour = $diff->d * 24 * 60 + $diff->h * 60 + $diff->i;
+            }
+            Attendance::create([
+                'user_id' => $request->user_id,
+                'checkin_at' => $request->checkin_at,
+                'intime' => $request->intime,
+                'outtime' => $request->outtime,
+                'workhour' => $workhour,
+            ]);
+            Session::flash('success', 'Attendance added successfully.');
+        } else {
+            Session::flash('error', 'Attendance have added before.');
+        }
+        return redirect()->back();
     }
     public function checkin()
     {

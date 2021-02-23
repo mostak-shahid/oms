@@ -111,38 +111,68 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <form action="{{route('attendance.store')}}">
-                        @csrf
-                        <div class="form-group">
-                            <select class="form-control select2" style="width: 100%;">
-                                <option value="">Select an email</option>
-                                <option>mostak.shahid@gmail.com</option>
-                                <option>mostak.apu@gmail.com</option>
-                            </select>
-                        </div>
-                        <!-- /.form-group -->
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        <i class="far fa-calendar-alt"></i>
-                                    </span>
-                                </div>
-                                <input type="text" class="form-control float-right" id="add-reservation">
-                                <span class="input-group-append">
-                                    <a href="{{route('attendance.index')}}" class="btn btn-info">Reset</a>
-                                </span>
+
+                <form id="attendance-store" action="{{route('attendance.store')}}">
+                    <div class="modal-body">
+                            @csrf
+                            <div class="form-group">
+                                <label for="user_id">Email:</label>
+                                <select id="user_id" name="user_id" class="form-control select2" style="width: 100%;" requird>
+                                    <option value="">Select an email</option>
+                                    @if($users->count())
+                                        @foreach($users as $user)
+                                            <option value="{{$user->id}}">{{$user->email}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
                             </div>
-                            <!-- /.input group -->
-                        </div>
-                        <!-- /.form group -->
-                    </form>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
+                            <!-- /.form-group -->
+                            <div class="form-group">
+                                <label for="checkin_at">Date:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="far fa-calendar-alt"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control float-right" id="checkin_at" name="checkin_at" required>
+                                </div>
+                                <!-- /.input group -->
+                            </div>
+                            <!-- /.form group -->
+                            <div class="form-group">
+                                <label for="intime">In Time:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="far fa-calendar-alt"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control float-right inout-reservation" id="intime" name="intime">
+                                </div>
+                                <!-- /.input group -->
+                            </div>
+                            <!-- /.form group -->
+                            <div class="form-group">
+                                <label for="outtime">Out Time:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="far fa-calendar-alt"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control float-right inout-reservation" id="outtime" name="outtime" value="">
+                                </div>
+                                <!-- /.input group -->
+                            </div>
+                            <!-- /.form group -->
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add Attendance</button>
+                    </div>
+
+                </form>
             </div>
             <!-- /.modal-content -->
         </div>
@@ -177,12 +207,12 @@
     <script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
     
     <script src="{{ asset('adminlte/plugins/moment/moment.min.js')}}"></script>
-    <script src="{{ asset('adminlte/plugins/inputmask/jquery.inputmask.min.js')}}"></script>
     <!-- date-range-picker -->
     <script src="{{ asset('adminlte/plugins/daterangepicker/daterangepicker.js')}}"></script>
-    
     <!-- Select2 -->
-    <script src="{{ asset('adminlte/plugins/select2/js/select2.full.min.js')}}"></script>
+    <script src="{{ asset('adminlte/plugins/select2/js/select2.full.min.js')}}"></script><!-- jquery-validation -->
+    <script src="{{ asset('adminlte/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
+    <script src="{{ asset('adminlte/plugins/jquery-validation/additional-methods.min.js')}}"></script>
     <script>
         let dateRange = '';
         jQuery(document).ready(function ($) {
@@ -194,7 +224,7 @@
                 theme: 'bootstrap4',
             });
             //Date range picker
-            $('#add-reservation').daterangepicker({
+            $('#checkin_at').daterangepicker({
                 //autoUpdateInput: false,
                 singleDatePicker: true,
                 locale: {
@@ -203,6 +233,27 @@
                     cancelLabel: 'Clear'
                 }
             });
+            $('.inout-reservation').daterangepicker({
+                autoUpdateInput: false,
+                singleDatePicker: true,
+                timePicker: true,
+                timePicker24Hour: true,
+                timePickerSeconds: true,
+                locale: {
+                    format: 'YYYY-MM-DD hh:mm:ss',
+                    separator: ' to ',
+                    cancelLabel: 'Clear'
+                }
+            });
+
+            $('input.inout-reservation').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('YYYY-MM-DD hh:mm:ss'));
+            });
+
+            $('input.inout-reservation').on('cancel.daterangepicker', function(ev, picker) {
+                $(this).val('');
+            });
+
             $('#reservation').daterangepicker({
                 //autoUpdateInput: false,
                 locale: {
@@ -210,7 +261,7 @@
                     separator: ' to ',
                     cancelLabel: 'Clear'
                 }
-            }, 
+            },
             function() {
                 dateRange = $(".drp-selected").text();
                 console.log(dateRange);
@@ -223,14 +274,51 @@
                     alert('Both Date is required');
                 }
                 
-            }); 
-            
+            });
+            /*$.validator.setDefaults({
+             submitHandler: function () {
+             alert( "Form successful submitted!" );
+             }
+             });*/
+            $('#attendance-store').validate({
+                rules: {
+                    user_id: {
+                        required: true,
+                    },
+                    checkin_at: {
+                        required: true,
+                    },
+                    intime: {
+                        required: true
+                    },
+                },
+                messages: {
+                    user_id: {
+                        required: "Please select an email address"
+                    },
+                    checkin_at: {
+                        required: "Date is required.",
+                    },
+                    intime: "In Time is required"
+                },
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
+            });
             $('#data-table tfoot th:not(.no_filter)').each( function () {
                 var title = $(this).text();
                 $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
             });
             createDataTable();
-            function createDataTable(dateRange = ''){
+            function createDataTable(dateRange = ""){
                 var dataTable = $('#data-table').DataTable({
                     //dom: "<'row'<'col-sm-12 text-center'B>>" +
                     dom: "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4 text-center'B><'col-sm-12 col-md-4'f>>" +
