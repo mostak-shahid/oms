@@ -49,6 +49,8 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Attendance');
     }
     public function checkin_status(){
-        return $this->attendances()->orderBy('id','DESC')->first()->outtime;
+        if($this->attendances()->orderBy('id','DESC')->first()->outtime)
+            return true;
+        return false;
     }
 }

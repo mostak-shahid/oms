@@ -20,13 +20,28 @@ class AttendanceController extends Controller
      */
     public function index(Request $request)
     {
+        $arr = [];
+        if ($request->date) {
+            //02/01/2021 - 03/28/2021
+            $arr = explode(' to ', $request->date);
+        }
         //$attendances = Attendance::orderBy('created_at','desc')->paginate(1);
         //$attendances = Attendance::orderBy('created_at','desc')->get();
-        $attendances = Attendance::all();
-        $attendances = DB::table('attendances')
-            ->join('users', 'users.id', '=', 'attendances.user_id')
-            ->select('attendances.*', 'users.email')
-            ->get();
+        //$attendances = Attendance::all();
+        if (sizeof($arr)>1){
+            $attendances = DB::table('attendances')
+                ->whereBetween('checkin_at', array($arr[0], $arr[1]))
+                ->join('users', 'users.id', '=', 'attendances.user_id')
+                ->select('attendances.*', 'users.email')
+                ->get();
+         
+        } else {
+            $attendances = DB::table('attendances')
+                ->join('users', 'users.id', '=', 'attendances.user_id')
+                ->select('attendances.*', 'users.email')
+                ->get();
+            
+        }
 
         if($request->ajax()) {
             //$attendances = Attendance::all();

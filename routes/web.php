@@ -27,7 +27,7 @@ Route::get('/login', function () {
 })->name('login');
 Route::get('/datatable', function () {
     return view('datatable');
-})->name('login');
+})->name('datatable');
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 //Route::get('/users', [App\Http\Controllers\HomeController::class, 'users'])->name('users');
@@ -37,6 +37,7 @@ Route::group(['middleware' => 'auth'], function(){
         Route::get('/', [App\Http\Controllers\AuthController::class, 'admin'])->name('admin');
         Route::get('/attendance', [App\Http\Controllers\AttendanceController::class, 'index'])->name('attendance.index');
         Route::get('/attendance/create', [App\Http\Controllers\AttendanceController::class, 'create'])->name('attendance.create');
+        Route::get('/attendance/store', [App\Http\Controllers\AttendanceController::class, 'store'])->name('attendance.store');
     });
     Route::group(['prefix'=>'user'], function(){	
         Route::get('/', [App\Http\Controllers\AuthController::class, 'user'])->name('user');
