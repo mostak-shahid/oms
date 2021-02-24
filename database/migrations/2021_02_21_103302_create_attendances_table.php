@@ -20,6 +20,7 @@ class CreateAttendancesTable extends Migration
             $table->dateTime('intime')->nullable();
             $table->dateTime('outtime')->nullable();
             $table->string('workhour')->nullable();
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }

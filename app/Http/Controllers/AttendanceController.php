@@ -60,6 +60,74 @@ class AttendanceController extends Controller
         }
         return view('attendance.index', compact('users'));
     }
+    public function byuser(Request $request)
+    {
+        $users = User::all();
+        //SELECT a.user_id, u.name, u.email, group_concat(CASE p.meta_key WHEN 'designation' THEN p.meta_value END) designation, COUNT(a.checkin_at) AS days, SUM(a.workhour) As workhour FROM attendances a LEFT JOIN users u ON a.user_id = u.id LEFT JOIN profiles p ON a.user_id = p.user_id WHERE (checkin_at BETWEEN '2021-01-28' AND '2021-01-29') GROUP BY a.user_id
+        
+        /*
+SELECT a.user_id, u.name, u.email, CASE p.meta_key WHEN 'designation' THEN p.meta_value END designation, COUNT(a.checkin_at) AS days, SUM(a.workhour) As workhour 
+	FROM attendances a 
+	LEFT JOIN users u
+	ON a.user_id = u.id
+    
+    LEFT JOIN profiles p
+    ON a.user_id = p.user_id
+    
+WHERE (checkin_at BETWEEN '2021-01-28' AND '2021-01-29') 
+GROUP BY a.user_id        
+        */
+        
+        //DB::table('attendances')->select('attendances.user_id','users.name', 'users.email')->leftJoin('users','users.id','=','attendances.user_id')->leftJoin('profiles','profiles.user_id', '=', 'attendances.user_id')->groupBy('attendances.user_id')->get()
+
+        $arr = [];
+        if ($request->date) {
+            //02/01/2021 - 03/28/2021
+            $arr = explode(' to ', $request->date);
+        }
+        //$attendances = Attendance::orderBy('created_at','desc')->paginate(1);
+        //$attendances = Attendance::orderBy('created_at','desc')->get();
+        //$attendances = Attendance::all();
+        if (sizeof($arr)>1){
+            $attendances = DB::select(DB::raw("SELECT a.user_id, u.name, u.email, CASE p.meta_key WHEN 'designation' THEN p.meta_value END designation, COUNT(a.checkin_at) AS days, SUM(a.workhour) AS workhour FROM attendances a LEFT JOIN users u ON a.user_id = u.id LEFT JOIN profiles p ON a.user_id = p.user_id WHERE (checkin_at BETWEEN '2021-01-28' AND '2021-01-29') GROUP BY a.user_id"));
+         
+        } else {
+            $attendances = DB::table('attendances')
+                            ->leftJoin('users as U','U.id','=','attendances.user_id')
+                            ->leftJoin('profiles as P', 'P.user_id', '=', 'attendances.user_id')
+                            ->select(
+                                'attendances.user_id',
+                                'U.name',
+                                'U.email',
+                                DB::raw("CASE P.meta_key WHEN 'designation' THEN P.meta_value END designation"),
+                                DB::raw("COUNT(attendances.checkin_at) AS days"),
+                                DB::raw("SUM(attendances.workhour) AS hours"))
+                            ->groupBy('attendances.user_id')
+                            ->get();
+            
+        }
+
+        if($request->ajax()) {
+            //$attendances = Attendance::all();
+            return DataTables::of($attendances)                
+                ->addColumn('name', function($attendances){
+                    return "Name";
+                })          
+                ->addColumn('email', function($attendances){
+                    return "Email";
+                })      
+                ->addColumn('designation', function($attendances){
+                    return "Designation";
+                })                
+                ->addColumn('workhour', function($attendances){
+                    return number_format($attendances->workhour/60,2);
+                })
+                //->rawColumns(['workhour'])
+                ->make(true);
+                // ->toJson();
+        }
+        return view('attendance.byuser', compact('users'));
+    }
 
     /**
      * Show the form for creating a new resource.
