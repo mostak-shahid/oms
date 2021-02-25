@@ -171,7 +171,67 @@
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Add Attendance</button>
                     </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <div class="modal fade" id="modal-edit-attendance">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Attendance</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
 
+                <form id="attendance-store" action="{{route('attendance.store')}}">
+                    <div class="modal-body">
+                            @csrf
+                            <div class="form-group">
+                                <label for="user_id">Email:</label>
+                                <h4 class="edited-email"></h4>
+                            </div>
+                            <!-- /.form-group -->
+                            <div class="form-group">
+                                <label for="checkin_at">Date:</label>
+                                <h4 class="edited-date"></h4>
+                            </div>
+                            <!-- /.form group -->
+                            <div class="form-group">
+                                <label>In Time:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="far fa-calendar-alt"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control float-right inout-reservation" name="intime">
+                                </div>
+                                <!-- /.input group -->
+                            </div>
+                            <!-- /.form group -->
+                            <div class="form-group">
+                                <label>Out Time:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="far fa-calendar-alt"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control float-right inout-reservation" name="outtime">
+                                </div>
+                                <!-- /.input group -->
+                            </div>
+                            <!-- /.form group -->
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Update Attendance</button>
+                    </div>
                 </form>
             </div>
             <!-- /.modal-content -->
@@ -219,6 +279,27 @@
             $('.add-button-modal').on('click', function(e){
                 e.preventDefault();
                 $("#modal-add-attendance").modal('show');
+            });
+            $('body').on('click', '.edit-button-modal', function(e){
+                e.preventDefault();
+                var attendance_id = $(this).data('id');
+
+                $.ajax({
+                    url:'index.php',
+                    type:'POST',
+                    async:false,
+                    data: {
+                        'delete' :1,
+                        'id': id
+                    },
+                    success: function(d){
+                        alert("Delete DATA SUCCESSFULLY");
+                        showdata();
+                    }
+                });
+
+                $("#modal-edit-attendance").find('.edited-email').html(attendance_id);
+                $("#modal-edit-attendance").modal('show');
             });
             $('.select2').select2({
                 theme: 'bootstrap4',

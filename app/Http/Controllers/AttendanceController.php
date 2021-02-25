@@ -36,7 +36,6 @@ class AttendanceController extends Controller
                 ->join('users', 'users.id', '=', 'attendances.user_id')
                 ->select('attendances.*', 'users.email')
                 ->get();
-         
         } else {
             $attendances = DB::table('attendances')
                 ->join('users', 'users.id', '=', 'attendances.user_id')
@@ -44,17 +43,16 @@ class AttendanceController extends Controller
                 ->get();
             
         }
-
         if($request->ajax()) {
             //$attendances = Attendance::all();
             return DataTables::of($attendances)
                 ->addColumn('user_id', function($attendances){
-                    return $attendances->email;
+                    return '<div class="d-flex justify-content-between with-action"><span clas="email">' . $attendances->email . '</span><span class="action-controls smooth"><a href="#" class="text-warning edit-button-modal" data-id="'.$attendances->id.'"><i class="fa fa-edit"></i></a><a href="#" class="text-danger"><i class="fa fa-trash"></i></a><a href="#" class="text-info"><i class="fa fa-file-alt"></i></a></span></div>';
                 })
                 ->addColumn('workhour', function($attendances){
                     return number_format($attendances->workhour/60,2);
                 })
-                //->rawColumns(['workhour'])
+                ->rawColumns(['user_id'])
                 ->make(true);
                 // ->toJson();
         }
@@ -63,64 +61,48 @@ class AttendanceController extends Controller
     public function byuser(Request $request)
     {
         $users = User::all();
-        //SELECT a.user_id, u.name, u.email, group_concat(CASE p.meta_key WHEN 'designation' THEN p.meta_value END) designation, COUNT(a.checkin_at) AS days, SUM(a.workhour) As workhour FROM attendances a LEFT JOIN users u ON a.user_id = u.id LEFT JOIN profiles p ON a.user_id = p.user_id WHERE (checkin_at BETWEEN '2021-01-28' AND '2021-01-29') GROUP BY a.user_id
-        
-        /*
-SELECT a.user_id, u.name, u.email, CASE p.meta_key WHEN 'designation' THEN p.meta_value END designation, COUNT(a.checkin_at) AS days, SUM(a.workhour) As workhour 
-	FROM attendances a 
-	LEFT JOIN users u
-	ON a.user_id = u.id
-    
-    LEFT JOIN profiles p
-    ON a.user_id = p.user_id
-    
-WHERE (checkin_at BETWEEN '2021-01-28' AND '2021-01-29') 
-GROUP BY a.user_id        
-        */
-        
-        //DB::table('attendances')->select('attendances.user_id','users.name', 'users.email')->leftJoin('users','users.id','=','attendances.user_id')->leftJoin('profiles','profiles.user_id', '=', 'attendances.user_id')->groupBy('attendances.user_id')->get()
-
         $arr = [];
         if ($request->date) {
             //02/01/2021 - 03/28/2021
             $arr = explode(' to ', $request->date);
         }
-        //$attendances = Attendance::orderBy('created_at','desc')->paginate(1);
-        //$attendances = Attendance::orderBy('created_at','desc')->get();
-        //$attendances = Attendance::all();
         if (sizeof($arr)>1){
-            $attendances = DB::select(DB::raw("SELECT a.user_id, u.name, u.email, CASE p.meta_key WHEN 'designation' THEN p.meta_value END designation, COUNT(a.checkin_at) AS days, SUM(a.workhour) AS workhour FROM attendances a LEFT JOIN users u ON a.user_id = u.id LEFT JOIN profiles p ON a.user_id = p.user_id WHERE (checkin_at BETWEEN '2021-01-28' AND '2021-01-29') GROUP BY a.user_id"));
-         
+            $attendances = DB::table('attendances')
+                ->leftJoin('users as U','U.id','=','attendances.user_id')
+                ->leftJoin('profiles as P', 'P.user_id', '=', 'attendances.user_id')
+                ->select(
+                    'attendances.user_id',
+                    'U.name',
+                    'U.email',
+                    DB::raw("CASE P.meta_key WHEN 'designation' THEN P.meta_value END designation"),
+                    DB::raw("COUNT(attendances.checkin_at) AS days"),
+                    DB::raw("SUM(attendances.workhour) AS hours")
+                )
+                ->whereBetween('checkin_at', [$arr[0], $arr[1]])
+                ->groupBy('attendances.user_id')
+                ->get();
         } else {
             $attendances = DB::table('attendances')
-                            ->leftJoin('users as U','U.id','=','attendances.user_id')
-                            ->leftJoin('profiles as P', 'P.user_id', '=', 'attendances.user_id')
-                            ->select(
-                                'attendances.user_id',
-                                'U.name',
-                                'U.email',
-                                DB::raw("CASE P.meta_key WHEN 'designation' THEN P.meta_value END designation"),
-                                DB::raw("COUNT(attendances.checkin_at) AS days"),
-                                DB::raw("SUM(attendances.workhour) AS hours"))
-                            ->groupBy('attendances.user_id')
-                            ->get();
+                ->leftJoin('users as U','U.id','=','attendances.user_id')
+                ->leftJoin('profiles as P', 'P.user_id', '=', 'attendances.user_id')
+                ->select(
+                    'attendances.user_id',
+                    'U.name',
+                    'U.email',
+                    DB::raw("CASE P.meta_key WHEN 'designation' THEN P.meta_value END designation"),
+                    DB::raw("COUNT(attendances.checkin_at) AS days"),
+                    DB::raw("SUM(attendances.workhour) AS hours")
+                )
+                ->groupBy('attendances.user_id')
+                ->get();
             
         }
 
         if($request->ajax()) {
             //$attendances = Attendance::all();
-            return DataTables::of($attendances)                
-                ->addColumn('name', function($attendances){
-                    return "Name";
-                })          
-                ->addColumn('email', function($attendances){
-                    return "Email";
-                })      
-                ->addColumn('designation', function($attendances){
-                    return "Designation";
-                })                
+            return DataTables::of($attendances)
                 ->addColumn('workhour', function($attendances){
-                    return number_format($attendances->workhour/60,2);
+                    return number_format($attendances->hours/60,2);
                 })
                 //->rawColumns(['workhour'])
                 ->make(true);

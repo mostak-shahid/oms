@@ -1,0 +1,17 @@
+.smooth {
+    -webkit-transition: all .3s ease-out;
+    -moz-transition: all .3s ease-out;
+    -o-transition: all .3s ease-out;
+    transition: all .3s ease-out;
+}
+.with-action .action-controls {
+    opacity:0;
+}
+.with-action:hover .action-controls {
+    opacity:1;
+}
+.with-action .action-controls a {
+    display: inline-block;
+    width: 25px;
+    text-align: center;
+}

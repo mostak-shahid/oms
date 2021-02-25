@@ -39,6 +39,7 @@ Route::group(['middleware' => 'auth'], function(){
         Route::get('/attendance/byuser', [App\Http\Controllers\AttendanceController::class, 'byuser'])->name('attendance.byuser');
         Route::get('/attendance/create', [App\Http\Controllers\AttendanceController::class, 'create'])->name('attendance.create');
         Route::get('/attendance/store', [App\Http\Controllers\AttendanceController::class, 'store'])->name('attendance.store');
+        Route::get('/attendance/ajax/single', [App\Http\Controllers\AttendanceController::class, 'ajaxsingle'])->name('attendance.ajax.single');
     });
     Route::group(['prefix'=>'user'], function(){	
         Route::get('/', [App\Http\Controllers\AuthController::class, 'user'])->name('user');

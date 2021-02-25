@@ -19,6 +19,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 @yield('style')
 <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte/dist/css/custom.css') }}">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">

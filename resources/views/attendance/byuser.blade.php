@@ -9,13 +9,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Attendance</h1>
+                        <h1 class="m-0">By User</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{route('admin')}}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{route('attendance.index')}}">Attendance</a></li>
-                            <li class="breadcrumb-item active">Attendance By User</li>
+                            <li class="breadcrumb-item active">By User</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -337,7 +337,7 @@
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{route('attendance.index')}}",
+                        url: "{{route('attendance.byuser')}}",
                         data: {date:dateRange}
                     },
                     columns: [
