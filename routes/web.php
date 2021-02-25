@@ -38,8 +38,11 @@ Route::group(['middleware' => 'auth'], function(){
         Route::get('/attendance', [App\Http\Controllers\AttendanceController::class, 'index'])->name('attendance.index');
         Route::get('/attendance/byuser', [App\Http\Controllers\AttendanceController::class, 'byuser'])->name('attendance.byuser');
         Route::get('/attendance/create', [App\Http\Controllers\AttendanceController::class, 'create'])->name('attendance.create');
-        Route::get('/attendance/store', [App\Http\Controllers\AttendanceController::class, 'store'])->name('attendance.store');
-        Route::get('/attendance/ajax/single', [App\Http\Controllers\AttendanceController::class, 'ajaxsingle'])->name('attendance.ajax.single');
+        Route::post('/attendance/store', [App\Http\Controllers\AttendanceController::class, 'store'])->name('attendance.store');
+        Route::get('/attendance/ajax/single/{id?}', [App\Http\Controllers\AttendanceController::class, 'ajaxsingle'])->name('attendance.ajax.single');
+        Route::put('/attendance/{id}', [App\Http\Controllers\AttendanceController::class, 'update'])->name('attendance.update');
+        Route::delete('/attendance/{id}', [App\Http\Controllers\AttendanceController::class, 'destroy'])->name('attendance.destroy');
+        Route::get('/attendance/{id}/delete', [App\Http\Controllers\AttendanceController::class, 'destroy'])->name('attendance.destroy');
     });
     Route::group(['prefix'=>'user'], function(){	
         Route::get('/', [App\Http\Controllers\AuthController::class, 'user'])->name('user');

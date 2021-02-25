@@ -47,7 +47,7 @@ class AttendanceController extends Controller
             //$attendances = Attendance::all();
             return DataTables::of($attendances)
                 ->addColumn('user_id', function($attendances){
-                    return '<div class="d-flex justify-content-between with-action"><span clas="email">' . $attendances->email . '</span><span class="action-controls smooth"><a href="#" class="text-warning edit-button-modal" data-id="'.$attendances->id.'"><i class="fa fa-edit"></i></a><a href="#" class="text-danger"><i class="fa fa-trash"></i></a><a href="#" class="text-info"><i class="fa fa-file-alt"></i></a></span></div>';
+                    return '<div class="d-flex justify-content-between with-action"><span clas="email">' . $attendances->email . '</span><span class="action-controls smooth"><a href="#" class="text-warning edit-button-modal" data-id="'.$attendances->id.'"><i class="fa fa-edit"></i></a><a href="'.route('attendance.destroy', ['id'=>$attendances->id]).'" data-id="'.$attendances->id.'"  class="text-danger delete-button-modal"><i class="fa fa-trash"></i></a><a href="'.route('attendance.destroy', ['id'=>$attendances->id]).'" data-id="'.$attendances->id.'" class="text-danger note-button-modal"><i class="fa fa-file-alt"></i></a></span></div>';
                 })
                 ->addColumn('workhour', function($attendances){
                     return number_format($attendances->workhour/60,2);
@@ -203,6 +203,18 @@ class AttendanceController extends Controller
     {
         //
     }
+    public function ajaxsingle(Request $request, $id)
+    {
+        //dd($request->all());
+        //$attendance = Attendance::find($id);
+        
+        $attendance = DB::table('attendances')
+            ->join('users', 'users.id', '=', 'attendances.user_id')
+            ->select('attendances.*', 'users.email')
+            ->where('attendances.id', $id)
+            ->first();
+        return response()->json($attendance);
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -224,7 +236,28 @@ class AttendanceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $workhour = 0;
+        $this->validate($request, [
+            'user_id' => array('required', 'string'),
+            'checkin_at' => array('required', 'string'),
+            'intime' => array('required', 'string'),
+            'outtime' => array('nullable', 'string'),
+        ]);
+        if ($request->outtime) {
+            $origin = date_create($request->intime);
+            $target = date_create($request->outtime);
+            $diff = date_diff($origin, $target);
+            $workhour = $diff->d * 24 * 60 + $diff->h * 60 + $diff->i;
+        }
+        $attendance = Attendance::findOrFail($request->id);
+        $attendance->user_id = $request->user_id;
+        $attendance->checkin_at = $request->checkin_at;
+        $attendance->intime = $request->intime;
+        $attendance->outtime = $request->outtime;
+        $attendance->workhour = $workhour;
+        $attendance->save();
+        Session::flash('success', 'Attendance has been updated.');
+        return redirect()->back();
     }
 
     /**
@@ -233,8 +266,11 @@ class AttendanceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
-        //
+        //dd($request->id);
+        Attendance::destroy($request->id);
+        Session::flash('success', 'Attendance has been deleted.');
+        return redirect()->back();        
     }
 }

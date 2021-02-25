@@ -112,7 +112,7 @@
                     </button>
                 </div>
 
-                <form id="attendance-store" action="{{route('attendance.store')}}">
+                <form id="attendance-store" action="{{route('attendance.store')}}" method="post">
                     <div class="modal-body">
                             @csrf
                             <div class="form-group">
@@ -188,9 +188,10 @@
                     </button>
                 </div>
 
-                <form id="attendance-store" action="{{route('attendance.store')}}">
+                <form id="attendance-update" action="{{route('attendance.update', ['id'=>1])}}" method="post">
                     <div class="modal-body">
                             @csrf
+                            @method('PUT')
                             <div class="form-group">
                                 <label for="user_id">Email:</label>
                                 <h4 class="edited-email"></h4>
@@ -209,7 +210,7 @@
                                             <i class="far fa-calendar-alt"></i>
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control float-right inout-reservation" name="intime">
+                                    <input type="text" class="form-control float-right inout-reservation" name="intime" id="edit-intime">
                                 </div>
                                 <!-- /.input group -->
                             </div>
@@ -222,15 +223,39 @@
                                             <i class="far fa-calendar-alt"></i>
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control float-right inout-reservation" name="outtime">
+                                    <input type="text" class="form-control float-right inout-reservation" name="outtime" id="edit-outtime">
                                 </div>
                                 <!-- /.input group -->
                             </div>
                             <!-- /.form group -->
+                            <input type="hidden" name="id" id="attendance_id">
+                            <input type="hidden" name="user_id" id="attendance_user_id">
+                            <input type="hidden" name="checkin_at" id="attendance_checkin_at">
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Update Attendance</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <div class="modal fade" id="modal-delete-attendance">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <form id="attendance-update" action="{{route('attendance.update', ['id'=>1])}}" method="post">                    
+                    @csrf
+                    @method('DELETE')
+                    <input type="hidden" name="id" id="attendance_delete_id">
+                    <div class="modal-body">
+                        Do you really like to delete this attendance?
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-primary">Delete</button>
                     </div>
                 </form>
             </div>
@@ -285,21 +310,31 @@
                 var attendance_id = $(this).data('id');
 
                 $.ajax({
-                    url:'index.php',
-                    type:'POST',
+                    url:'{{route('attendance.ajax.single')}}' + '/' + attendance_id,
+                    type:'GET',
                     async:false,
                     data: {
-                        'delete' :1,
-                        'id': id
+                        'id': attendance_id
                     },
-                    success: function(d){
-                        alert("Delete DATA SUCCESSFULLY");
-                        showdata();
+                    success: function(result){
+                        //console.log(result);
+                        $("#modal-edit-attendance").find('.edited-email').html(result.email);
+                        $("#modal-edit-attendance").find('.edited-date').html(result.checkin_at);
+                        $("#modal-edit-attendance").find('#attendance_checkin_at').val(result.checkin_at);
+                        $("#modal-edit-attendance").find('#edit-intime').val(result.intime);
+                        $("#modal-edit-attendance").find('#edit-outtime').val(result.outtime);
+                        $("#modal-edit-attendance").find('#attendance_id').val(result.id);
+                        $("#modal-edit-attendance").find('#attendance_user_id').val(result.user_id);
+                        $("#modal-edit-attendance").modal('show');
                     }
                 });
-
-                $("#modal-edit-attendance").find('.edited-email').html(attendance_id);
-                $("#modal-edit-attendance").modal('show');
+            });
+            
+            $('body').on('click', '.delete-button-modal', function(e){
+                e.preventDefault();
+                var attendance_id = $(this).data('id');
+                $("#attendance_delete_id").val(attendance_id);
+                $("#modal-delete-attendance").modal('show');
             });
             $('.select2').select2({
                 theme: 'bootstrap4',
@@ -315,25 +350,25 @@
                 }
             });
             $('.inout-reservation').daterangepicker({
-                autoUpdateInput: false,
+                //autoUpdateInput: false,
                 singleDatePicker: true,
                 timePicker: true,
                 timePicker24Hour: true,
                 timePickerSeconds: true,
                 locale: {
-                    format: 'YYYY-MM-DD hh:mm:ss',
+                    format: 'YYYY-MM-DD H:mm:ss',
                     separator: ' to ',
                     cancelLabel: 'Clear'
                 }
             });
 
-            $('input.inout-reservation').on('apply.daterangepicker', function(ev, picker) {
-                $(this).val(picker.startDate.format('YYYY-MM-DD hh:mm:ss'));
-            });
+            // $('input.inout-reservation').on('apply.daterangepicker', function(ev, picker) {
+            //     $(this).val(picker.startDate.format('YYYY-MM-DD hh:mm:ss'));
+            // });
 
-            $('input.inout-reservation').on('cancel.daterangepicker', function(ev, picker) {
-                $(this).val('');
-            });
+            // $('input.inout-reservation').on('cancel.daterangepicker', function(ev, picker) {
+            //     $(this).val('');
+            // });
 
             $('#reservation').daterangepicker({
                 //autoUpdateInput: false,
