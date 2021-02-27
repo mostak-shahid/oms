@@ -110,7 +110,21 @@ class AttendanceController extends Controller
         }
         return view('attendance.byuser', compact('users'));
     }
-
+    public function user(Request $request){
+        $user = Auth::user();
+        $attendances = $user->attendances;
+        if($request->ajax()) {
+            //$attendances = Attendance::all();
+            return DataTables::of($attendances)
+                ->addColumn('workhour', function($attendances){
+                    return number_format($attendances->workhour/60,2);
+                })
+                //->rawColumns(['workhour'])
+                ->make(true);
+            // ->toJson();
+        }
+        return view('attendance.user');
+    }
     /**
      * Show the form for creating a new resource.
      *

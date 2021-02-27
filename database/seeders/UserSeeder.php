@@ -22,7 +22,8 @@ class UserSeeder extends Seeder
             'password' => Hash::make('123456789'),            
             'phone' => '01670058131',
             'username' => 'mostak.shahid',
-            'is_admin' => 1
+            'is_admin' => 1,
+            'is_active' => 1,
         ]);
         DB::table('users')->insert([
             'name' => 'Md. Mostak Apu',
@@ -30,7 +31,17 @@ class UserSeeder extends Seeder
             'password' => Hash::make('123456789'),
             'phone' => '01710702212',
             'username' => 'mostak.apu',
-            'is_admin' => 0
+            'is_admin' => 0,
+            'is_active' => 1,
+        ]);
+        DB::table('users')->insert([
+            'name' => 'Inactive User',
+            'email' => 'inactive.user@gmail.com',
+            'password' => Hash::make('123456789'),
+            'phone' => '0123456789',
+            'username' => 'inactive.user',
+            'is_admin' => 0,
+            'is_active' => 0,
         ]);
     }
 }

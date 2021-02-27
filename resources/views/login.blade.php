@@ -6,19 +6,19 @@
 
         <form id="quickForm" action="{{ route('login') }}" method="post">
             @csrf
-            <div class="input-group mb-3">
-                <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Email or Username">
-                <div class="input-group-append">
-                    <div class="input-group-text">
-                        <span class="fas fa-envelope"></span>
+            <div class="from-group mb-3">
+                <div class="input-group">
+                    <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Email or Username">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
                     </div>
                 </div>
+                @if ($errors->has('username') || $errors->has('email'))
+                <div class="text-danger">{{$errors->first('email')}}{{$errors->first('username')}}</div>
+                @endif
             </div>
-            @error('email')
-            <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-            @enderror
             <div class="input-group mb-3">
                 <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Password">
                 <div class="input-group-append">
@@ -27,12 +27,6 @@
                     </div>
                 </div>
             </div>
-
-            @error('password')
-            <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-            @enderror
 
             <div class="row">
                 <div class="col-8">
@@ -55,6 +49,7 @@
                 <a href="{{ route('password.request') }}">I forgot my password</a>
             </p>
         @endif
+        @include('layouts.errors')
     </div>
 @endsection
 @section('script')
@@ -69,21 +64,17 @@
                 rules: {
                     email: {
                         required: true,
-                        //email: true,
                     },
                     password: {
                         required: true,
-                        minlength: 5
                     }
                 },
                 messages: {
                     email: {
-                        required: "Please enter a email address",
-                        email: "Please enter a vaild email address"
+                        required: "Please enter a email address"
                     },
                     password: {
-                        required: "Please provide a password",
-                        minlength: "Your password must be at least 5 characters long"
+                        required: "Please provide a password"
                     },
                 },
                 //errorElement: 'div',

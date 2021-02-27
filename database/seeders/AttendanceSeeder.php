@@ -56,6 +56,21 @@ class AttendanceSeeder extends Seeder
                     'outtime' => $outtime,
                     'workhour' => $workhour
                 ]);
+
+                $intime = $start_date . ' ' . $intimehours[rand(0,5)];
+                $outtime = $start_date . ' ' . $outtimehours[rand(0,5)];
+                $origin = date_create($intime);
+                $target = date_create($outtime);
+                $interval = date_diff($origin, $target);
+                $workhour = $interval->d * 24 * 60 + $interval->h * 60 + $interval->i;
+
+                Attendance::create([
+                    'user_id' => 3,
+                    'checkin_at' => $start_date,
+                    'intime' => $intime,
+                    'outtime' => $outtime,
+                    'workhour' => $workhour
+                ]);
             }
             $start_date = date('Y-m-d', strtotime('+1 day', strtotime($start_date)));
         }

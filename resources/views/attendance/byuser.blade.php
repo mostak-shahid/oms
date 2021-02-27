@@ -220,26 +220,17 @@
                 }
             });
             $('.inout-reservation').daterangepicker({
-                autoUpdateInput: false,
+                //autoUpdateInput: false,
                 singleDatePicker: true,
                 timePicker: true,
                 timePicker24Hour: true,
                 timePickerSeconds: true,
                 locale: {
-                    format: 'YYYY-MM-DD hh:mm:ss',
+                    format: 'YYYY-MM-DD H:mm:ss',
                     separator: ' to ',
                     cancelLabel: 'Clear'
                 }
             });
-
-            $('input.inout-reservation').on('apply.daterangepicker', function(ev, picker) {
-                $(this).val(picker.startDate.format('YYYY-MM-DD hh:mm:ss'));
-            });
-
-            $('input.inout-reservation').on('cancel.daterangepicker', function(ev, picker) {
-                $(this).val('');
-            });
-
             $('#reservation').daterangepicker({
                 //autoUpdateInput: false,
                 locale: {

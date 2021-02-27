@@ -362,14 +362,6 @@
                 }
             });
 
-            // $('input.inout-reservation').on('apply.daterangepicker', function(ev, picker) {
-            //     $(this).val(picker.startDate.format('YYYY-MM-DD hh:mm:ss'));
-            // });
-
-            // $('input.inout-reservation').on('cancel.daterangepicker', function(ev, picker) {
-            //     $(this).val('');
-            // });
-
             $('#reservation').daterangepicker({
                 //autoUpdateInput: false,
                 locale: {

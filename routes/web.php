@@ -46,6 +46,7 @@ Route::group(['middleware' => 'auth'], function(){
     });
     Route::group(['prefix'=>'user'], function(){	
         Route::get('/', [App\Http\Controllers\AuthController::class, 'user'])->name('user');
+        Route::get('/attendance', [App\Http\Controllers\AttendanceController::class, 'user'])->name('attendance.user');
     });
     Route::get('/checkin', [App\Http\Controllers\AttendanceController::class, 'checkin'])->name('checkin');
     Route::get('/checkout', [App\Http\Controllers\AttendanceController::class, 'checkout'])->name('checkout');
