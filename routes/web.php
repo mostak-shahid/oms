@@ -43,6 +43,7 @@ Route::group(['middleware' => 'auth'], function(){
         Route::put('/attendance/{id}', [App\Http\Controllers\AttendanceController::class, 'update'])->name('attendance.update');
         Route::delete('/attendance/{id}', [App\Http\Controllers\AttendanceController::class, 'destroy'])->name('attendance.destroy');
         Route::get('/attendance/{id}/delete', [App\Http\Controllers\AttendanceController::class, 'destroy'])->name('attendance.destroy');
+        Route::get('/employee', [App\Http\Controllers\EmployeeController::class, 'tree'])->name('employee');
     });
     Route::group(['prefix'=>'user'], function(){	
         Route::get('/', [App\Http\Controllers\AuthController::class, 'user'])->name('user');
