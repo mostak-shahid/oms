@@ -15,6 +15,8 @@ class CreateTreesTable extends Migration
     {
         Schema::create('trees', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id');
+            $table->foreignId('child_id');
             $table->timestamps();
         });
     }
