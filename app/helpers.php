@@ -79,3 +79,12 @@ if (!function_exists('is_url')) {
         return false;
     }
 }
+if (!function_exists('get_option')) {
+    function get_option($data){
+        if(filter_var($data, FILTER_VALIDATE_URL) === TRUE)
+        {
+            return true;
+        }
+        return false;
+    }
+}
