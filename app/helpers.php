@@ -7,9 +7,14 @@ if (!function_exists('maybe_serialize')) {
         if ( is_serialized( $data, false ) ) {
             return serialize( $data );
         }
-
         return $data;
     }
+}
+function maybe_unserialize( $data ) {
+    if ( is_serialized( $data ) ) { // Don't attempt to unserialize data that wasn't serialized going in.
+        return @unserialize( trim( $data ) );
+    }
+    return $data;
 }
 if (!function_exists('is_serialized')) {
     function is_serialized( $data, $strict = true ) {
@@ -79,11 +84,18 @@ if (!function_exists('is_url')) {
         return false;
     }
 }
-if (!function_exists('get_option')) {
-    function get_option($data){
-        if(filter_var($data, FILTER_VALIDATE_URL) === TRUE)
-        {
-            return true;
+
+if (!function_exists('get_value')) {
+    function get_value($data,$key){
+        if($data->count()){
+            foreach($data as $value){
+                if ($value['meta_key'] == $key){
+                    if (is_serialized($value['meta_value'])){
+                        return maybe_unserialize($value['meta_value']);
+                    }
+                    return $value['meta_value'];
+                }
+            }
         }
         return false;
     }

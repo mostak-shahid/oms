@@ -26,32 +26,32 @@
                                 <div class="form-group row">
                                     <label for="sitetitle" class="col-sm-2 col-form-label">Site Title</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="sitetitle" placeholder="Site Title">
+                                        <input type="text" class="form-control" id="sitetitle" name="sitetitle" placeholder="Site Title" value="{{get_value($settings,'sitetitle')}}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="tagline" class="col-sm-2 col-form-label">Tagline</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="tagline" placeholder="Tagline">
+                                        <input type="text" class="form-control" id="tagline" name="tagline" placeholder="Tagline" value="{{get_value($settings,'tagline')}}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="siteurl" class="col-sm-2 col-form-label">Site Address (URL)</label>
                                     <div class="col-sm-10">
-                                        <input type="url" class="form-control" id="siteurl" placeholder="Site Address (URL)">
+                                        <input type="url" class="form-control" id="siteurl" name="siteurl" placeholder="Site Address (URL)" value="{{get_value($settings,'siteurl')}}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="admin_email" class="col-sm-2 col-form-label">Administration Email Address</label>
                                     <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="admin_email" placeholder="Administration Email Address">
+                                        <input type="email" class="form-control" id="admin_email" name="admin_email" placeholder="Administration Email Address" value="{{get_value($settings,'admin_email')}}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="users_can_register" class="col-sm-2 col-form-label">Membership</label>
                                     <div class="col-sm-10">
                                         <div class="form-check">
-                                            <input type="checkbox" class="form-check-input" id="users_can_register">
+                                            <input type="checkbox" class="form-check-input" id="users_can_register" name="users_can_register" value="1" @if(get_value($settings,'users_can_register')){{'checked'}}@endif>
                                             <label class="form-check-label" for="users_can_register">Anyone can register</label>
                                         </div>
                                     </div>
@@ -571,6 +571,7 @@
                                 <div class="form-group row">
                                     <label for="weekend" class="col-sm-2 col-form-label">Week Ends</label>
                                     <div class="col-sm-10">
+                                        @php($weekends = get_value($settings,'weekend'))
                                         <select id="weekend" multiple name="weekend" class="form-control select2bs4" style="width: 100%;">
                                             <option value="sat">Saturday</option>
                                             <option value="sun">Sunday</option>
