@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ef94df3c-f081-4dd4-9b80-f7c28b1eaee5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/helpers.php" afterPath="$PROJECT_DIR$/app/helpers.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/settings/general.blade.php" afterPath="$PROJECT_DIR$/resources/views/settings/general.blade.php" />
-    </list>
+    <list default="true" id="ef94df3c-f081-4dd4-9b80-f7c28b1eaee5" name="Default" comment="" />
     <ignored path="oms.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -51,13 +47,7 @@
             <state relative-caret-position="561">
               <caret line="575" column="63" selection-start-line="575" selection-start-column="63" selection-end-line="575" selection-end-column="63" />
               <folding>
-                <element signature="e#3979#52615#0#HTML" expanded="false" />
                 <marker date="1619459633612" expanded="true" signature="54799:56564" ph="..." />
-                <marker date="1619459633612" expanded="true" signature="54812:54900" ph="..." />
-                <marker date="1619459633612" expanded="true" signature="54985:55061" ph="..." />
-                <marker date="1619459633612" expanded="true" signature="56101:56240" ph="..." />
-                <marker date="1619459633612" expanded="true" signature="56314:56386" ph="..." />
-                <marker date="1619459633612" expanded="true" signature="56462:56537" ph="..." />
               </folding>
             </state>
           </provider>
@@ -66,7 +56,7 @@
       <file leaf-file-name="SettingController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/SettingController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="699">
+            <state relative-caret-position="1428">
               <caret line="85" column="8" selection-start-line="85" selection-start-column="8" selection-end-line="85" selection-end-column="17" />
               <folding>
                 <element signature="e#40#68#0#PHP" expanded="true" />
@@ -111,7 +101,7 @@
       <file leaf-file-name="AttendanceSeeder.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/database/seeders/AttendanceSeeder.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="835">
+            <state relative-caret-position="1122">
               <caret line="67" column="34" selection-start-line="67" selection-start-column="34" selection-end-line="67" selection-end-column="34" />
               <folding>
                 <element signature="e#36#67#0#PHP" expanded="true" />
@@ -123,7 +113,7 @@
       <file leaf-file-name="helpers.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/helpers.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="733">
+            <state relative-caret-position="1683">
               <caret line="99" column="8" selection-start-line="99" selection-start-column="8" selection-end-line="99" selection-end-column="21" />
               <folding />
             </state>
@@ -207,7 +197,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -471,6 +460,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -564,17 +554,18 @@
       <workItem from="1619352240769" duration="1136000" />
       <workItem from="1619366377454" duration="2718000" />
       <workItem from="1619455864520" duration="3979000" />
+      <workItem from="1619629372863" duration="1190000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="58775000" />
+    <option name="totallyTimeSpent" value="59965000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13006397" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13113007" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -677,9 +668,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1020">
           <caret line="60" column="58" selection-start-line="60" selection-start-column="58" selection-end-line="60" selection-end-column="58" />
-          <folding>
-            <element signature="e#40#68#0#PHP" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -886,9 +874,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="119" column="63" selection-start-line="119" selection-start-column="63" selection-end-line="119" selection-end-column="63" />
-          <folding>
-            <element signature="e#40#68#0#PHP" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -967,15 +952,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
           <caret line="17" column="31" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
-          <folding>
-            <element signature="e#36#67#0#PHP" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/database/seeders/AttendanceSeeder.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="835">
+        <state relative-caret-position="1122">
           <caret line="67" column="34" selection-start-line="67" selection-start-column="34" selection-end-line="67" selection-end-column="34" />
           <folding>
             <element signature="e#36#67#0#PHP" expanded="true" />
@@ -985,7 +967,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/SettingController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="699">
+        <state relative-caret-position="1428">
           <caret line="85" column="8" selection-start-line="85" selection-start-column="8" selection-end-line="85" selection-end-column="17" />
           <folding>
             <element signature="e#40#68#0#PHP" expanded="true" />
@@ -995,7 +977,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/helpers.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="733">
+        <state relative-caret-position="1683">
           <caret line="99" column="8" selection-start-line="99" selection-start-column="8" selection-end-line="99" selection-end-column="21" />
           <folding />
         </state>
@@ -1006,13 +988,7 @@
         <state relative-caret-position="561">
           <caret line="575" column="63" selection-start-line="575" selection-start-column="63" selection-end-line="575" selection-end-column="63" />
           <folding>
-            <element signature="e#3979#52615#0#HTML" expanded="false" />
             <marker date="1619459633612" expanded="true" signature="54799:56564" ph="..." />
-            <marker date="1619459633612" expanded="true" signature="54812:54900" ph="..." />
-            <marker date="1619459633612" expanded="true" signature="54985:55061" ph="..." />
-            <marker date="1619459633612" expanded="true" signature="56101:56240" ph="..." />
-            <marker date="1619459633612" expanded="true" signature="56314:56386" ph="..." />
-            <marker date="1619459633612" expanded="true" signature="56462:56537" ph="..." />
           </folding>
         </state>
       </provider>
