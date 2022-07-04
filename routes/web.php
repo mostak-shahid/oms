@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes([
     //'login' => false,
-    //'register' => false,
+    'register' => false,
 ]);
 
 Route::get('/', function () {
@@ -45,6 +45,7 @@ Route::group(['middleware' => 'auth'], function(){
         Route::get('/attendance/{id}/delete', [App\Http\Controllers\AttendanceController::class, 'destroy'])->name('attendance.destroy');
         Route::get('/employee', [App\Http\Controllers\EmployeeController::class, 'tree'])->name('employee');
         Route::get('/settings', [App\Http\Controllers\SettingController::class, 'general'])->name('settings.general');
+        Route::get('/users', [App\Http\Controllers\SettingController::class, 'general'])->name('settings.general');
     });
     Route::group(['prefix'=>'user'], function(){	
         Route::get('/', [App\Http\Controllers\AuthController::class, 'user'])->name('user');

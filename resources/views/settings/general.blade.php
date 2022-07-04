@@ -583,6 +583,7 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="float-right"><button type="submit" class="btn btn-primary">Save Changes</button></div>
                             </form>
                         </div>
                     </div>
