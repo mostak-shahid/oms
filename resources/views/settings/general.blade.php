@@ -573,13 +573,13 @@
                                     <div class="col-sm-10">
                                         @php($weekends = get_value($settings,'weekend'))
                                         <select id="weekend" multiple name="weekend" class="form-control select2bs4" style="width: 100%;">
-                                            <option value="sat">Saturday</option>
-                                            <option value="sun">Sunday</option>
-                                            <option value="mon">Monday</option>
-                                            <option value="tue">Tuesday</option>
-                                            <option value="wed">Wednesday</option>
-                                            <option value="thu">Thursday</option>
-                                            <option value="fri">Friday</option>
+                                            <option value="sat" @if(in_array("sat", $weekends)){{'selected'}}@endif >Saturday</option>
+                                            <option value="sun" @if(in_array("sun", $weekends)){{'selected'}}@endif >Sunday</option>
+                                            <option value="mon" @if(in_array("mon", $weekends)){{'selected'}}@endif >Monday</option>
+                                            <option value="tue" @if(in_array("tue", $weekends)){{'selected'}}@endif >Tuesday</option>
+                                            <option value="wed" @if(in_array("wed", $weekends)){{'selected'}}@endif >Wednesday</option>
+                                            <option value="thu" @if(in_array("thu", $weekends)){{'selected'}}@endif >Thursday</option>
+                                            <option value="fri" @if(in_array("fri", $weekends)){{'selected'}}@endif >Friday</option>
                                         </select>
                                     </div>
                                 </div>

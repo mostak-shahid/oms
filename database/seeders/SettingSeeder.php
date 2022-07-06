@@ -18,8 +18,8 @@ class SettingSeeder extends Seeder
             ['meta_key'=>'siteurl','meta_value'=>'http://laravel-oms.test/'],
             ['meta_key'=>'sitetitle','meta_value'=>'Laravel OMS'],
             ['meta_key'=>'tagline','meta_value'=>'Just another Laravel Site.'],
-            ['meta_key'=>'users_can_register','meta_value'=>0],
-            ['meta_key'=>'admin_email','meta_value'=>'mostgak.shahid@gmail.com'],
+            ['meta_key'=>'users_can_register','meta_value'=>1],
+            ['meta_key'=>'admin_email','meta_value'=>'mostak.shahid@gmail.com'],
             ['meta_key'=>'weekend','meta_value'=>['sat','sun']],
         ];
         foreach($options as $option) {

@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             ProfileSeeder::class,
             AttendanceSeeder::class,
+            SettingSeeder::class,
 //            CommentSeeder::class,
         ]);
     }

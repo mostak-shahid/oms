@@ -36,7 +36,7 @@
                 </li>
                 <li class="nav-item menu-open"><!-- .menu-open -->
                     <a href="#" class="nav-link active">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-clock"></i>
                         <p>
                             Attendance
                             <i class="right fas fa-angle-left"></i>
@@ -45,13 +45,13 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{route('attendance.index')}}" class="nav-link active">
-                                <i class="far fa-circle nav-icon"></i>
+                                <i class="fas fa-calendar-clock"></i>
                                 <p>By Date</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{route('attendance.byuser')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
+                                <i class="fas fa-user-clock"></i>
                                 <p>By User</p>
                             </a>
                         </li>
