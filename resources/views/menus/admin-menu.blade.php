@@ -34,8 +34,8 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item menu-open"><!-- .menu-open -->
-                    <a href="#" class="nav-link active">
+                <li class="nav-item {{Request::routeIs('attendance*') ? 'menu-open' : '' }}"><!-- .menu-open -->
+                    <a href="#" class="nav-link {{Request::routeIs('attendance*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-clock"></i>
                         <p>
                             Attendance
@@ -44,13 +44,13 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{route('attendance.index')}}" class="nav-link active">
+                            <a href="{{Request::route('attendance.index')}}" class="nav-link {{Request::routeIs('attendance') ? 'active' : '' }}">
                                 <i class="fas fa-calendar-clock"></i>
                                 <p>By Date</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('attendance.byuser')}}" class="nav-link">
+                            <a href="{{route('attendance.byuser')}}" class="nav-link {{Request::routeIs('attendance/byuser') ? 'active' : '' }}">
                                 <i class="fas fa-user-clock"></i>
                                 <p>By User</p>
                             </a>
